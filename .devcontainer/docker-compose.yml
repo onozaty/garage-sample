@@ -1,0 +1,34 @@
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - garage
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+
+  garage:
+    image: "dxflrs/garage:v2.1.0"
+    volumes:
+      - ./garage.toml:/etc/garage.toml
+      - garage-meta:/var/lib/garage/meta
+      - garage-data:/var/lib/garage/data
+    restart: unless-stopped
+
+  garage-webui:
+    image: khairul169/garage-webui:latest
+    container_name: garage-webui
+    restart: unless-stopped
+    volumes:
+      - ./garage.toml:/etc/garage.toml:ro
+    ports:
+      - 3909:3909
+    environment:
+      API_BASE_URL: "http://garage:3903"
+      S3_ENDPOINT_URL: "http://garage:3900"
+
+volumes:
+  garage-meta:
+  garage-data:

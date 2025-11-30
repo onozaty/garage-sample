@@ -1,0 +1,22 @@
+{
+  "name": "garage",
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "client",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "remoteUser": "ubuntu",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // ghcr.io/devcontainers/features/aws-cliでAWS Toolkitが自動でインストールされるのを抑止
+        "-AmazonWebServices.aws-toolkit-vscode"
+      ],
+      "settings": {
+        "dev.containers.dockerCredentialHelper": false
+      }
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  }
+}
